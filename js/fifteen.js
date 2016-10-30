@@ -62,7 +62,6 @@ function validMove(leftPx,topPx){
         valid = true;   
     }
     else if(x - 100 === pleft && y === ptop){
-//        console.log(x + " " + pleft);
         valid = true;
     }
     else if(y + 100 === ptop && x === pleft){
@@ -78,14 +77,12 @@ function validMove(leftPx,topPx){
 }
 
 function swap(leftPx, topPx){
-    console.log(leftPx+" " + ptop);
     var temp = leftPx;
     leftPx = pleft + "px";
     pleft = parseInt(temp);
     temp = topPx;
     topPx = ptop +"px";
     ptop = parseInt(temp);
-    console.log(pleft+" " + ptop);
     return [leftPx, topPx];
 }
 
