@@ -35,6 +35,7 @@ function allignGrid(imgFile){
         pzlPiece[i].onmouseover = function(){
             if(validMove(this.style.left, this.style.top)){
                 this.classList.add("movablepiece");
+		this.style.cursor = "pointer";
             }
         }
         pzlPiece[i].onmouseout = function(){
