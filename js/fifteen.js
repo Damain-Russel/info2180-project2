@@ -40,6 +40,7 @@ function allignGrid(imgFile){
         }
         pzlPiece[i].onmouseout = function(){
             this.classList.remove("movablepiece");
+	    this.style.cursor = "none";
         }
         
         pzlPiece[i].onmousedown = function(){
