@@ -89,5 +89,30 @@ function swap(leftPx, topPx){
 }
 
 function shuffle(){
-
+    if(!sessionStart){
+        var i, l;
+        var lst2 = [];
+        for(l = 0; l < 100; l++){
+            for(i = 0; i < pzlPiece.length; i++){
+                if(validMove(pzlPiece[i].style.left, pzlPiece[i].style.top)){
+                    lst2.push([pzlPiece[i],i]);
+                }
+            }
+            if(lst2.length != 0){
+                var rndNum = Math.floor(Math.random() * lst2.length);
+                var lst = swap(lst2[rndNum][0].style.left, lst2[rndNum][0].style.top);
+                lst2[rndNum][0].style.left = lst[0];
+                lst2[rndNum][0].style.top = lst[1];
+            }
+            else{
+                l--;
+            }
+            lst2 = [];
+        }
+        sessionStart = true;
+    }
+    else{
+        //please reset
+    }
+    
 }
