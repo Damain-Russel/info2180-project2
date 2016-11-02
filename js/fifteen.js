@@ -12,7 +12,7 @@ window.onload = function(){
 	pzlPiece = puzzleArea.getElementsByTagName("div");
 	shuffleBtn = document.getElementById("shufflebutton");
     var i;
-	//shuffleBtn.onclick = shuffle();
+	shuffleBtn.onclick = shuffle();
     var imgs =["BG-1.jpg", "BG-2.jpg", "BG-3.jpg", "BG-4.jpg"];
     allignGrid(imgs[0]);
     
