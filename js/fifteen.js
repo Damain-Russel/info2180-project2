@@ -7,7 +7,7 @@
 */
 var sessionStart = false;
 var shuffleBtn, pzlPiece, puzzleArea;
-var ptop = 0, pleft = 0, counter = 1, min = 0, sec = 0, move = 0, timer;
+var ptop = 0, pleft = 0, counter = 0, min = 0, sec = 0, move = 0, timer;
 "use strict"
 window.onload = function(){
     window.onclick = function(event) {
@@ -199,13 +199,14 @@ function nextImg(){
         ptop = 0;
         pleft = 0;
         var imgs =["background.jpg", "BG-2.jpg", "BG-3.jpg", "BG-0.jpg"];
-        if(counter == 4){
+        if(counter == 3){
             counter = 0;
         }
         else{
-            allignGrid(imgs[counter]);
-            counter++;
+			counter++;
+            
         }
+		allignGrid(imgs[counter]);
     }
 }
 
