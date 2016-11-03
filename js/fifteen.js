@@ -7,7 +7,7 @@
 */
 var sessionStart = false;
 var shuffleBtn, pzlPiece, puzzleArea;
-var ptop = 0, pleft = 0, counter = 1, min = 0, sec = 0, mone = 0, timer;
+var ptop = 0, pleft = 0, counter = 1, min = 0, sec = 0, move = 0, timer;
 "use strict"
 window.onload = function(){
     window.onclick = function(event) {
