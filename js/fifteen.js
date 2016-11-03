@@ -1,21 +1,52 @@
+/**
+* features completed: 
+* Animations and/or transitions: Instead of each tile immediately appearing in its new position, they transition.
+* Multiple backgrounds: Several background images (4) to choose from are available. Dedicated button to change image is also in the UI.
+*
+* I would like to be graded on the Animations and/or transitions feature.
+*/
 var sessionStart = false;
-var shuffleBtn;
-var pzlPiece;
-var puzzleArea;
-var ptop = 0;
-var pleft = 0;
-var reset;
-var counter =1;
+var shuffleBtn, pzlPiece, puzzleArea;
+var ptop = 0, pleft = 0, counter = 1, min = 0, sec = 0, timer;
 "use strict"
 window.onload = function(){
-	puzzleArea = document.getElementById("puzzlearea");
+    window.onclick = function(event) {
+        var modal = document.getElementById("myModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    var timeKeeper = document.createElement("P");
+    var moves = document.createElement("P");
+    var gameSession = document.createElement("P");
+    
+    puzzleArea = document.getElementById("puzzlearea");
+    
+    timeKeeper.id = "timeKeeper";
+    timeKeeper.appendChild(document.createTextNode("Timer: 00:00"));
+    document.getElementById("overall").insertBefore(timeKeeper,puzzleArea);
+    timeKeeper.style.position = "fixed";
+    timeKeeper.style.top = "13%";
+    timeKeeper.style.left = "1%";
+    
+    moves.id = "moves";
+    moves.appendChild(document.createTextNode("Moves: "));
+    document.getElementById("overall").insertBefore(moves,puzzleArea);
+    moves.style.position = "fixed";
+    moves.style.top = "15%";
+    moves.style.left = "1%";
+    
+    gameSession.id = "gameSession";
+    document.getElementById("overall").insertBefore(gameSession,puzzleArea);
+    gameSession.style.position = "fixed";
+    gameSession.style.top = "20%";
+    gameSession.style.left = "1%";
+    
 	pzlPiece = puzzleArea.getElementsByTagName("div");
-    reset = pzlPiece;
 	shuffleBtn = document.getElementById("shufflebutton");
-    var i;
 	shuffleBtn.onclick = shuffle;
     allignGrid("background.jpg");
-    winner();
+    moves.style.padding = "10px";
     btn();
 }
 function allignGrid(imgFile){
@@ -24,6 +55,11 @@ function allignGrid(imgFile){
         pzlPiece[i].className = "puzzlepiece";
         pzlPiece[i].style.top = ptop + "px";
         pzlPiece[i].style.left = pleft + "px";
+        pzlPiece[i].webkitTransition = "all 1000ms ease";
+        pzlPiece[i].mozTransition = "all 1000ms ease";
+        pzlPiece[i].msTransition = "all 1000ms ease";
+        pzlPiece[i].oTransition = "all 1000ms ease";
+        pzlPiece[i].style.transition = "all 1000ms ease";
         pzlPiece[i].style.backgroundImage =  "url('./img/"+imgFile+"')";
         pleft = pleft + 100;
         if(pleft > 300){
@@ -43,10 +79,10 @@ function allignGrid(imgFile){
         }
         pzlPiece[i].onmousedown = function(){
             if(validMove(this.style.left, this.style.top)){
+                movesCounter();
                 var lst = swap(this.style.left, this.style.top);
                 this.style.left = lst[0];
                 this.style.top = lst[1];
-                winner();
             }
         }
     }
@@ -85,6 +121,7 @@ function swap(leftPx, topPx){
 }
 function shuffle(){
     if(!sessionStart){
+        timer = setInterval(timerKeeper,1000);
         var i, l;
         var lst2 = [];
         for(l = 0; l < 100; l++){
@@ -107,32 +144,7 @@ function shuffle(){
         sessionStart = true;
     }
     else{
-        //please reset
-    }
-    
-}
-
-function winner(){
-    
-    if(sessionStart && 
-        pzlPiece[0].style.left === "0px" && pzlPiece[0].style.top === "0px" &&
-        pzlPiece[1].style.left === "100px" && pzlPiece[1].style.top === "0px" &&
-        pzlPiece[2].style.left === "200px" && pzlPiece[2].style.top === "0px" &&
-        pzlPiece[3].style.left === "300px" && pzlPiece[3].style.top === "0px" &&
-        pzlPiece[4].style.left === "0px" && pzlPiece[4].style.top === "100px" &&
-        pzlPiece[5].style.left === "100px" && pzlPiece[5].style.top === "100px" &&
-        pzlPiece[6].style.left === "200px" && pzlPiece[6].style.top === "100px" &&
-        pzlPiece[7].style.left === "300px" && pzlPiece[7].style.top === "100px" &&
-        pzlPiece[8].style.left === "0px" && pzlPiece[8].style.top === "200px" &&
-        pzlPiece[9].style.left === "100px" && pzlPiece[9].style.top === "200px" &&
-        pzlPiece[10].style.left === "200px" && pzlPiece[10].style.top === "200px" &&
-        pzlPiece[11].style.left === "300px" && pzlPiece[11].style.top === "200px" &&
-        pzlPiece[12].style.left === "0px" && pzlPiece[12].style.top === "300px" &&
-        pzlPiece[13].style.left === "100px" && pzlPiece[13].style.top === "300px" &&
-        pzlPiece[14].style.left === "200px" && pzlPiece[14].style.top === "300px" 
-      ){
-        console.log("you won");
-        sessionStart = false;
+        //pop up reset
     }
 }
 
@@ -141,16 +153,14 @@ function btn() {
     var nxtBtn = document.createElement("BUTTON");
     var resetBtn = document.createElement("BUTTON");
     var gameInfo = document.createElement("BUTTON");
-    nxtBtn.ID = "next";
-    resetBtn.ID = "reset";
-    gameInfo.ID = "game-info";
+    nxtBtn.id = "next";
+    resetBtn.id = "reset";
+    gameInfo.id = "game-info";
     nxtBtn.appendChild(document.createTextNode("Next Img"));
     gameInfo.appendChild(document.createTextNode("Game Info"));
     resetBtn.appendChild(document.createTextNode("Reset Game"));
     var btnList = [nxtBtn, resetBtn, gameInfo, shuffleBtn];
-    //Styling buttons
     for(var i = 0; i < btnList.length; i++){
-//        #3cb0fd
         btnList[i].style.fontFamily = "Arial";
         btnList[i].style.color = "#ffffff";
         btnList[i].style.fontSize = "16px";
@@ -165,20 +175,22 @@ function btn() {
         }
     }
     nxtBtn.addEventListener("click", nextImg);
-    gameInfo.addEventListener("click", modal);
+    gameInfo.addEventListener("click", modalClick);
     resetBtn.addEventListener("click", resetGame);
-
 }
 
-
 function resetGame(){
+    var session = document.getElementById("gameSession");
     ptop = 0;
     pleft = 0;
     allignGrid("background.jpg");
     sessionStart = false;
+    clearInterval(timer)
+    document.getElementById("timeKeeper").innerHTML = "Timer: 00:00";
+    document.getElementById("moves").innerHTML = "Moves:";
+    min = 0;
+    sec = 0;
 }
-
-
 function nextImg(){
     if(!sessionStart){
         ptop = 0;
@@ -191,18 +203,20 @@ function nextImg(){
             allignGrid(imgs[counter]);
             counter++;
         }
-        
     }
 }
 
-function modal(){
+function modalClick(){
     var modal = document.createElement("DIV");
     var modalContent = document.createElement("DIV");
     var gameBar = document.createElement("DIV");
-    gameBar.ID = "gameBar";
-    modal.ID = "myModal";
+    var close = document.createElement("SPAN");
+    gameBar.id = "gameBar";
+    modal.id = "myModal";
+    close.id = "close";
+    modalContent.id = "modalContent";
     
-    modal.style.display = "true";
+    modal.style.display = "block";
     modal.style.position = "fixed"; 
     modal.style.zIndex = "1"; 
     modal.style.paddingTop = "100px";
@@ -220,26 +234,64 @@ function modal(){
     modalContent.style.border = "1px solid #888";
     modalContent.style.width = "80%";
     
+    close.style.color = "#aaaaaa";
+    close.style.float = "right";
+    close.style.fontSize = "28px";
+    close.style.fonteWight = "bold";
+    close.style.cursor = "pointer";
+    close.style.position = "fixed";
+    close.style.top = "100px";
+    close.style.right = "130px";
+    close.appendChild(document.createTextNode("x"));
+    close.addEventListener("click",closeModal);
+    
     var paragraph = document.createElement("P");
-    var text = document.createTextNode("<strong>Another </strong> paragraph, yay! This one will be styled different from the rest since we styled the DIV we specifically created.");
+    var header = document.createElement("H1");
+    header.appendChild(document.createTextNode("Game Instructions"));
+    header.style.margin = "0px";
+    
+    var text = document.createTextNode("The 'Fifteen puzzle' (more generally called the Sliding Puzzle) is a simple classic game consisting of a 4x4 grid of numbered squares with one square missing. The goal of the fifteen puzzle is to un-jumble its fifteen squares by repeatedly making moves that slide squares into the empty space. You begin playing by hitting the 'Shuffle' button. When the Shuffle button is clicked, the tiles of the puzzle are randomized and a timer will begin. To move a piece, first you will have to hover over that piece and it will be highlighted if it can be moved. Once highlighted you may click on the piece and it will go to the empty spot. Once solved, you will be notified. Are you up for the challenge? How quickly can you solve it? Close this info dialoge and LETS FIND OUT!");
+    paragraph.style.fontFamily = "Arial";
+    paragraph.style.fontSize = "2em";
     paragraph.appendChild(text);
-    paragraph.appendChild(text);
+    
+    modalContent.appendChild(header);
+    modalContent.appendChild(close);
+    modalContent.appendChild(paragraph);
     modal.appendChild(modalContent);
     
-    
-    
-    
-    // Styling it
-    gameBar.style.textAlign = "center";
-    gameBar.style.color = "azure";
-    gameBar.style.backgroundColor = "#f42f5c";
-    gameBar.style.borderColor = "#bf0202";
-    gameBar.style.padding = "5px";
-    gameBar.style.width = "80%";
-    gameBar.style.margin = "auto";
-    gameBar.style.position = "absolute";
-    gameBar.style.float = "left";
-    
-    
-    //document.getElementById("overall").insertBefore(modal, puzzleArea);
+    document.getElementById("overall").insertBefore(modal, puzzleArea);
+}
+
+function closeModal(){
+    document.getElementById("myModal").style.display = "none";
+}
+
+function movesCounter(){
+    move++;
+    document.getElementById("moves").innerHTML = "Moves: " + move;
+}
+
+function timerKeeper(){
+    var time;
+    if(sec < 59){
+        sec++;
+    }
+    else{
+        sec = 0;
+        min++;
+    }
+    if(min < 10){
+       time = "Timer: 0"+min+":"; 
+    }
+    else{
+        time = "Timer: "+min+":"; 
+    }
+    if(sec < 10){
+        time += "0"+sec;
+    }
+    else{
+        time += sec;
+    }
+    document.getElementById("timeKeeper").innerHTML = time;
 }
