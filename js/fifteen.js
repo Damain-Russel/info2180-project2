@@ -45,7 +45,8 @@ window.onload = function(){
 	pzlPiece = puzzleArea.getElementsByTagName("div");
 	shuffleBtn = document.getElementById("shufflebutton");
 	shuffleBtn.onclick = shuffle;
-    allignGrid("background.jpg");
+    var imgs =["background.jpg", "BG-2.jpg", "BG-3.jpg", "BG-0.jpg"];
+    allignGrid(imgs[counter]);
     moves.style.padding = "10px";
     btn();
 }
@@ -183,13 +184,15 @@ function resetGame(){
     var session = document.getElementById("gameSession");
     ptop = 0;
     pleft = 0;
-    allignGrid("background.jpg");
+	var imgs =["background.jpg", "BG-2.jpg", "BG-3.jpg", "BG-0.jpg"];
+    allignGrid(imgs[counter]);
     sessionStart = false;
-    clearInterval(timer)
+    clearInterval(timer);
     document.getElementById("timeKeeper").innerHTML = "Timer: 00:00";
     document.getElementById("moves").innerHTML = "Moves:";
     min = 0;
     sec = 0;
+	move = 0;
 }
 function nextImg(){
     if(!sessionStart){
