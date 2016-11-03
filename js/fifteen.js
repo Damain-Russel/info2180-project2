@@ -195,7 +195,7 @@ function nextImg(){
     if(!sessionStart){
         ptop = 0;
         pleft = 0;
-        var imgs =["background.jpg", "BG-2.jpg", "BG-3.jpg", "BG-4.jpg"];
+        var imgs =["background.jpg", "BG-2.jpg", "BG-3.jpg", "BG-0.jpg"];
         if(counter == 4){
             counter = 0;
         }
